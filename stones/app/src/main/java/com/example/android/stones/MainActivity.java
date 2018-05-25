@@ -1,6 +1,9 @@
 package com.example.android.stones;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -119,4 +122,5 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0; i<6; i++)
             vis[i] = false;
     }
+
 }
