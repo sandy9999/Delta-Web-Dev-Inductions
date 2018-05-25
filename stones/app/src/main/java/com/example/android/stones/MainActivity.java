@@ -13,6 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> arrayList;
     ArrayAdapter<String> adapter;
     boolean vis[];
-
+    int ct;
 
 
     @Override
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         vis = new boolean[6];
         for(int i=0; i<6; i++)
             vis[i] = false;
+        ct = 0;
     }
 
     public void choosefn(View view)
@@ -112,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
             for(int i=0; i<6; i++)
                 vis[i] = false;
         }
+        ct++;
+        saveArrayList(arrayList,String.valueOf(ct));
+        getArrayList(String.valueOf(ct));
 
     }
 
@@ -121,6 +129,25 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         for(int i=0; i<6; i++)
             vis[i] = false;
+        ct++;
+        saveArrayList(arrayList,String.valueOf(ct));
+        getArrayList(String.valueOf(ct));
     }
 
+    public void saveArrayList(ArrayList<String> list, String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();     // This line is IMPORTANT !!!
+    }
+
+    public ArrayList<String> getArrayList(String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        Gson gson = new Gson();
+        String json = prefs.getString(key, null);
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
 }
