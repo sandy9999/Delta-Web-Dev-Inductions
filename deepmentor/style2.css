@@ -1,0 +1,38 @@
+ul
+{
+	list-style: none;
+	
+}
+
+#add
+{
+	margin-left: 20px;
+}
+li
+{
+	margin: 0 0 100px 0;
+}
+#menteename
+{
+	float: left;
+}
+
+#ratingbox
+{
+	margin-left: 20px;
+	width: 20px;
+	
+}
+
+textarea
+{
+	top: 50px;
+	width: 400px;
+	position:relative;
+	float: left;
+}
+
+.deletebutton
+{
+	margin-left: 20px;
+}
