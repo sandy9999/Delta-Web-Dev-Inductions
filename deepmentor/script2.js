@@ -3,9 +3,7 @@ var array = [];
 function addfn()
 {
 	var mentee = document.getElementById('mentee').value;
-	var d = new Date();
-	var time = d.getTime();
-	var todo = {id: time, name: mentee, rating:0/*, comments:inputcomments*/};
+	var todo = {name: mentee, rating:0/*, comments:inputcomments*/};
 	array.push(todo);
 	document.getElementById('mentee').value = '';
 	displayfn();
@@ -21,33 +19,40 @@ function displayfn()
 	{
 		
 		var todoli = document.createElement('li');
-		todoli.className = "collapsible";
 		var menteename = document.createElement('input');
 		menteename.setAttribute('type','text');
 		menteename.value = array[i].name;
 		menteename.id = "menteename";
 		var ratingbox = document.createElement("input");
-		if(array[i].rating != 0)
-			ratingbox.value = array[i].rating;
 		ratingbox.setAttribute('type', 'number');
 		ratingbox.className = "ratingbox";
 		ratingbox.id = "ratingbox" + i;
+		if(array[i].rating != 0)
+			ratingbox.value = array[i].rating;
 		var remarkarea = document.createElement('textarea');
 		var deletebutton = document.createElement('button');
 		deletebutton.innerHTML = 'Delete';
 		deletebutton.className = 'deletebutton';
 		deletebutton.id = i;
-		deletebutton.onclick = function()
+		/*deletebutton.onclick = function()
 		{
 			array.splice(i,1);
+			console.log(array);
 			displayfn();
-		};
+		};*/
 		todosUl.appendChild(todoli);
 		todosUl.appendChild(menteename);
 		todosUl.appendChild(ratingbox);
 		todosUl.appendChild(remarkarea);
 		todosUl.appendChild(deletebutton);
+		
 	}
+	for(var i=0; i<array.length; i++)
+		{
+			if(document.getElementById("ratingbox" + i).value!='')
+				array[i].rating = document.getElementById("ratingbox" + i).value;
+		}
+		console.log(array);
 
 }
 
