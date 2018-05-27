@@ -1,3 +1,4 @@
+//Note the rating is from 1 to 10
 var array = [];
 
 function addfn()
@@ -24,6 +25,13 @@ function addfn()
 		ratingbox.setAttribute('type', 'number');
 		ratingbox.className = "ratingbox";
 		ratingbox.id = "ratingbox" + array.length-1;
+		ratingbox.onkeyup = function()
+		{
+			if(ratingbox.value>0 && ratingbox.value<=5)
+				ratingbox.style.backgroundColor = 'red';
+			else if(ratingbox.value>5 && ratingbox.value<=10)
+				ratingbox.style.backgroundColor = 'green';
+		}
 		var remarkarea = document.createElement('textarea');
 		remarkarea.className = "remarkarea";
 		remarkarea.id = "remarkarea" + array.length - 1;
