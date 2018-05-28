@@ -1,9 +1,10 @@
 //Note the rating is from 1 to 10
 var array = [];
+var todosUL = document.querySelector('ul');
+
 
 function addfn()
 {
-	var todosUL = document.querySelector('ul');
 	if(array.length==0)
 	{
 		//console.log("hello");
@@ -30,9 +31,9 @@ function addfn()
 		//console.log(ratingbox.id);
 		ratingbox.onkeyup = function()
 		{
-			if(ratingbox.value>0 && ratingbox.value<=5)
+			if(parseInt(ratingbox.value)>0 && parseInt(ratingbox.value)<=5)
 				ratingbox.style.backgroundColor = 'red';
-			else if(ratingbox.value>5 && ratingbox.value<=10)
+			else if(parseInt(ratingbox.value)>5 && parseInt(ratingbox.value)<=10)
 				ratingbox.style.backgroundColor = 'green';
 			/*for(var i=0; i<array.length; i++)
 				console.log(array[i].id);*/
@@ -40,7 +41,7 @@ function addfn()
 				if(ratingbox.id.substr(9) ==array[i].id)
 				{
 					//console.log(ratingbox.id.substr(9));
-					array[i].rating = ratingbox.value;
+					array[i].rating = parseInt(ratingbox.value);
 					break;
 				}
 					
@@ -56,7 +57,7 @@ function addfn()
 					array[i].comments = remarkarea.value;
 					break;
 				}
-					
+			
 		};
 		var deletebutton = document.createElement('button');
 		deletebutton.innerHTML = 'Delete';
@@ -81,6 +82,33 @@ function addfn()
 	
 }
 
+function addonebyone(i)
+{
+	let todoli = document.createElement('li');
+		let menteename = document.createElement('input');
+		menteename.setAttribute('type','text');
+		menteename.value = array[i].name;
+		menteename.className = "menteename";
+		menteename.id = "menteename" + i.toString();
+		let ratingbox = document.createElement("input");
+		ratingbox.setAttribute('type', 'number');
+		ratingbox.className = "ratingbox";
+		ratingbox.id = "ratingbox" + i.toString();
+		ratingbox.value = array[i].rating;
+		let remarkarea = document.createElement('textarea');
+		remarkarea.className = "remarkarea";
+		remarkarea.id = "remarkarea" + i.toString();
+		remarkarea.value = array[i].comments;
+		let deletebutton = document.createElement('button');
+		deletebutton.innerHTML = 'Delete';
+		deletebutton.className = 'deletebutton';
+		deletebutton.id = "deletebutton" + i.toString();
+		todoli.appendChild(menteename);
+		todoli.appendChild(ratingbox);
+		todoli.appendChild(remarkarea);
+		todoli.appendChild(deletebutton);
+		todosUL.appendChild(todoli);
+}
 
 function sortfn()
 {
@@ -90,53 +118,37 @@ function sortfn()
 		{
 			if(array[i].rating > array[j].rating)
 			{
+				//console.log("hello");
 				var temp = array[i].id;
 				array[i].id = array[j].id;
 				array[j].id = temp;
-				var temp = array[i].rating;
+				var temp1 = array[i].rating;
 				array[i].rating = array[j].rating;
-				array[j].rating = temp;
-				var temp = array[i].name;
+				array[j].rating = temp1;
+				var temp2 = array[i].name;
 				array[i].name = array[j].name;
-				array[j].name = temp;
-				var temp = array[i].comments;
+				array[j].name = temp2;
+				var temp3 = array[i].comments;
 				array[i].comments = array[j].comments;
-				array[j].comments = temp;
+				array[j].comments = temp3;
 			}
 		}
-	//console.log(array);
-	var todosUL = document.querySelector('ul');
+	//Until here cool
+	
 	todosUL.innerHTML = '';
+	for(var i = 0; i<array.length; i++)
+		array[i].id = i;
 	for(var i=0; i<array.length; i++)
 	{
-		array[i].id = i;
-		var todoli = document.createElement('li');
-		var menteename = document.createElement('input');
-		menteename.setAttribute('type','text');
-		menteename.value = array[i].name;
-		menteename.className = "menteename";
-		menteename.id = "menteename" + i.toString();
-		var ratingbox = document.createElement("input");
-		ratingbox.setAttribute('type', 'number');
-		ratingbox.className = "ratingbox";
-		ratingbox.id = "ratingbox" + toString();
-		ratingbox.value = array[i].rating;
-		var remarkarea = document.createElement('textarea');
-		remarkarea.className = "remarkarea";
-		remarkarea.id = "remarkarea" + i.toString();
-		remarkarea.value = array[i].comments;
-		var deletebutton = document.createElement('button');
-		deletebutton.innerHTML = 'Delete';
-		deletebutton.className = 'deletebutton';
-		deletebutton.id = "deletebutton" + i.toString();
-		todoli.appendChild(menteename);
-		todoli.appendChild(ratingbox);
-		todoli.appendChild(remarkarea);
-		todoli.appendChild(deletebutton);
-		todosUL.appendChild(todoli);
-		deletebutton.onclick = function()
+		addonebyone(i);
+		
+	}
+	for(var i = 0; i<array.length; i++)
+	{
+		//console.log(i);
+		document.getElementById("deletebutton" + array[i].id.toString()).onclick = function()
 		{
-			var pos = parseInt(deletebutton.id.substr(12));
+			var pos = parseInt(document.getElementById("deletebutton" + array[i].id).id.substr(12));
 			array.splice(pos,1);
 			console.log(array);
 			/*var ul = document.getElementsByTagName('ul')[0];
@@ -144,28 +156,32 @@ function sortfn()
 			ul.removeChild(li);*/
 			todosUL.removeChild(this.parentNode);
 		};
-		ratingbox.onkeyup = function()
+		document.getElementById("ratingbox" + array[i].id.toString()).onkeyup = function()
 		{
-			if(ratingbox.value>0 && ratingbox.value<=5)
-				ratingbox.style.backgroundColor = 'red';
-			else if(ratingbox.value>5 && ratingbox.value<=10)
-				ratingbox.style.backgroundColor = 'green';
-			for(var i=0; i<array.length; i++)
-				if(ratingbox.id.substr(9) ==array[i].id)
+			//console.log(array[i].id);
+			if(parseInt(document.getElementById("ratingbox" + array[i].id.toString()).value)>0 && parseInt(document.getElementById("ratingbox" + array[i].id.toString()).value)<=5)
+				document.getElementById("ratingbox" + array[i].id.toString()).style.backgroundColor = 'red';
+			else if(parseInt(document.getElementById("ratingbox" + array[i].id.toString()).value)>5 && parseInt(document.getElementById("ratingbox" + array[i].id.toString()).value)<=10)
+				document.getElementById("ratingbox" + array[i].id.toString()).style.backgroundColor = 'green';
+			for(var j=0; j<=i; j++)
+				if(document.getElementById("ratingbox" + array[i].id.toString()).id.substr(9) ==array[j].id)
 				{
-					array[i].rating = ratingbox.value;
+					
+					console.log(array[j].id);
+					console.log(document.getElementById("ratingbox" + array[i].id.toString()).id);
+					array[j].rating = parseInt(document.getElementById("ratingbox" + array[i].id.toString()).value);
 					break;
 				}
 		};
-		remarkarea.onkeyup = function()
+		/*remarkarea.onkeyup = function()
 		{
-			for(var i=0; i<array.length; i++)
-				if(remarkarea.id.substr(10) ==array[i].id)
+			for(var j=0; j<=i; j++)
+				if(remarkarea.id.substr(10) ==array[j].id)
 				{
-					array[i].comments = remarkarea.value;
+					array[j].comments = remarkarea.value;
 					break;
 				}
-		};
+		};*/
 	}
 	
 }
